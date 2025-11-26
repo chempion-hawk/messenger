@@ -566,11 +566,11 @@ async def handle_websocket_message(data, session_id, ws):
 
 # === ИНИЦИАЛИЗАЦИЯ ===
 
+app = web.Application()
+
 async def init_app():
     """Инициализация приложения"""
     await init_db()
-    
-    app = web.Application()
     
     async def cors_middleware(app, handler):
         async def middleware_handler(request):
