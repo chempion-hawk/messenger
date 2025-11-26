@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messenger - Мессенджер</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- ЭКРАН РЕГИСТРАЦИИ/ВХОДА -->
+        <div id="authScreen" class="screen auth-screen">
+            <div class="auth-container">
+                <div class="auth-logo">💬</div>
+                <h1>Messenger</h1>
+                
+                <div class="auth-tabs">
+                    <button class="tab-btn active" data-tab="login">Вход</button>
+                    <button class="tab-btn" data-tab="register">Регистрация</button>
+                </div>
+                
+                <!-- ВХОД -->
+                <form id="loginForm" class="auth-form active">
+                    <input type="email" placeholder="Email" required id="loginEmail">
+                    <input type="password" placeholder="Пароль" required id="loginPassword">
+                    <button type="submit" class="btn-primary">Войти</button>
+                </form>
+                
+                <!-- РЕГИСТРАЦИЯ -->
+                <form id="registerForm" class="auth-form">
+                    <input type="text" placeholder="Имя пользователя" required id="registerUsername">
+                    <input type="email" placeholder="Email" required id="registerEmail">
+                    <input type="password" placeholder="Пароль" required id="registerPassword">
+                    <input type="password" placeholder="Подтвердите пароль" required id="registerPasswordConfirm">
+                    <button type="submit" class="btn-primary">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- ГЛАВНЫЙ ЭКРАН МЕССЕНДЖЕРА -->
+        <div id="messengerScreen" class="screen messenger-screen" style="display: none;">
+            <div class="messenger-container">
+                <!-- ЛЕВАЯ ПАНЕЛЬ - СПИСОК ЧАТОВ -->
+                <div class="sidebar">
+                    <div class="sidebar-header">
+                        <h2>Чаты</h2>
+                        <div class="header-buttons">
+                            <button id="newChatBtn" class="icon-btn" title="Новый чат">✏️</button>
+                            <button id="settingsBtn" class="icon-btn" title="Настройки">⚙️</button>
+                        </div>
+                    </div>
+                    
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Поиск чатов...">
+                    </div>
+                    
+                    <div id="chatsList" class="chats-list">
+                        <!-- Чаты будут добавлены здесь -->
+                    </div>
+                </div>
+                
+                <!-- ЦЕНТРАЛЬНАЯ ПАНЕЛЬ - ЧАТ -->
+                <div class="chat-area">
+                    <!-- ЗАГОЛОВОК ЧАТА -->
+                    <div id="chatHeader" class="chat-header">
+                        <div class="chat-info">
+                            <img id="chatAvatar" src="" alt="Avatar" class="avatar">
+                            <div class="chat-details">
+                                <h3 id="chatName">Выберите чат</h3>
+                                <span id="chatStatus" class="status">offline</span>
+                            </div>
+                        </div>
+                        <div class="header-buttons">
+                            <button class="icon-btn">📞</button>
+                            <button class="icon-btn">📹</button>
+                            <button class="icon-btn">ℹ️</button>
+                        </div>
+                    </div>
+                    
+                    <!-- СООБЩЕНИЯ -->
+                    <div id="messagesContainer" class="messages-container">
+                        <div class="no-chat-selected">
+                            <div class="empty-state">
+                                <div class="empty-icon">💬</div>
+                                <h2>Выберите чат</h2>
+                                <p>Начните беседу с друзьями</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ИНДИКАТОР ПЕЧАТИ -->
+                    <div id="typingIndicator" class="typing-indicator" style="display: none;">
+                        <span class="user-typing"></span> печатает...
+                    </div>
+                    
+                    <!-- ВВОД СООБЩЕНИЯ -->
+                    <div class="message-input-area">
+                        <div class="input-controls">
+                            <button id="attachBtn" class="icon-btn" title="Прикрепить файл">📎</button>
+                            <button id="emojiBtn" class="icon-btn" title="Смайлики">😊</button>
+                        </div>
+                        
+                        <textarea id="messageInput" placeholder="Напишите сообщение..." rows="1"></textarea>
+                        
+                        <div class="input-controls">
+                            <button id="sendBtn" class="icon-btn send-btn" title="Отправить">➤</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- МОДАЛЬНЫЕ ОКНА -->
+        <div id="newChatModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Новый чат</h2>
+                    <button class="close-btn">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="create-tabs">
+                        <button class="tab-btn active" data-tab="private">Приватный</button>
+                        <button class="tab-btn" data-tab="group">Групповой</button>
+                    </div>
+                    
+                    <!-- ПРИВАТНЫЙ ЧАТ -->
+                    <div id="privateTab" class="tab-content active">
+                        <div class="users-list">
+                            <input type="text" id="userSearch" placeholder="Поиск пользователя... ">
+                            <div id="usersList" class="users-grid">
+                                <!-- Пользователи будут добавлены здесь -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ГРУППОВОЙ ЧАТ -->
+                    <div id="groupTab" class="tab-content">
+                        <input type="text" id="groupName" placeholder="Название группы">
+                        <div class="users-list">
+                            <input type="text" id="groupUserSearch" placeholder="Поиск пользователей...">
+                            <div id="groupUsersList" class="users-grid">
+                                <!-- Пользователи будут добавлены здесь -->
+                            </div>
+                        </div>
+                        <div id="selectedUsers" class="selected-users"></div>
+                        <button id="createGroupBtn" class="btn-primary">Создать группу</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- МОДАЛЬ ЗАГРУЗКИ ФАЙЛА -->
+        <div id="fileModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Отправить файл</h2>
+                    <button class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="file-type-selector">
+                        <button class="file-type-btn" data-type="image">
+                            🖼️ Фото
+                        </button>
+                        <button class="file-type-btn" data-type="video">
+                            🎬 Видео
+                        </button>
+                        <button class="file-type-btn" data-type="audio">
+                            🎙️ Голос
+                        </button>
+                        <button class="file-type-btn" data-type="sticker">
+                            🎨 Стикеры
+                        </button>
+                    </div>
+                    <input type="file" id="fileInput" style="display: none;">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
